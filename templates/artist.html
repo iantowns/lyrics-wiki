@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<h3>{{ artist|escape }}</h3>
+<ol>
+{% for album in discography %}
+<li>
+<a href="/album/{{ artist|urlencode }}/{{ album.name|urlencode }}">{{ album.name }}</a> 
+{% if album.release_date %} ({{ album.release_date }}) 
+{% endif %}
+</li>
+{% endfor %}
+</ol>
+
+
+</div> 
+
+{% endblock %}
+

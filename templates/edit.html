@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<h3>edit {{ lyrics.title|escape }}</h3>
+<form id="lyrics-submit" class="vForm" action="/lyrics" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="title" id="title" value="{{ lyrics.title }}" />
+    <input type="hidden" name="artist" id="artist" value="{{ lyrics.artist }}" />
+	<label for="lyrics">Lyrics</label> <textarea rows=15 cols=30 name="lyrics" id="lyrics">{{ lyrics.text|escape }}</textarea>
+	<br />
+	<input type="submit" value="submit" />
+</form>
+
+{% endblock %}

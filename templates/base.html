@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{{ pageTitle }}</title>
+<link href="/static/css/main.css" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Nobile:400,700' rel='stylesheet' type='text/css' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+<script src="/static/js/jquery.form.js"></script>
+<script src="/static/js/jquery-ui-1.8.17.custom.min.js"></script>
+<script src="/static/js/jquery.validate.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+    //form validation
+    $(".vForm").validate();
+
+    //search function
+    $('#search').keyup(function(e) { 
+        e.preventDefault();
+        $.getJSON('/search', {q: $('#search').val(), type: $('#search-options').val()}, function(data) {
+            console.log(data);
+            if ($("#results").length){
+                $("#results").remove();
+            }
+            if(data[0]) {
+                $('#sidebar').append("<ul id='results'> </ul>");
+            }
+            var length = data.length
+            for( i=0; i < length; i++){
+                console.log(data[i]);
+                var type = $('#search-options').val()
+                var searchedText = $('#search').val()
+                console.log(type);
+                if(type == 'Artist') {
+                    $('#results').append('<li><a href="/artist/'+ encodeURIComponent(data[i]) + '">' + data[i] + '</a></li>');
+                }
+                else if(type == 'Album') {
+                    $('#results').append('<li><a href="/album/'+ encodeURIComponent(data[i]) + '/' + encodeURIComponent(searchedText) +'"><strong>' + searchedText + "</strong> by " +  data[i] + '</a></li>');
+                    console.log(encodeURIComponent(data[1][i]))
+                }
+                else if(data[1][i] && data[0][i]){
+                    $('#results').append('<li><a href="/song/' + encodeURIComponent(data[0][i]) + '/' + encodeURIComponent(data[1][i]) + '"><strong>' + data[1][i] + "</strong> by " + data[0][i] + '</a></li>');
+                }
+            }
+        });  
+    });
+    
+    //song page toggle of links/lyrics
+    $("#versions a").click(function() {
+        var currID = this.hash.substring(1);
+        
+        if($(".selected").length == 2){
+            if($(this).hasClass("selected")) {
+                // 2 selected -
+                //remove current marker
+                $(".current").removeClass("current");
+                //remove selected marker from this
+                $(this).removeClass("selected")
+                //add current marker to div with ID of selected
+                var ID = $(".selected:first").get()[0].hash.substring(1);
+                var lID = "#l"+ID;
+                $(lID).addClass("current");
+            }
+            
+            else {
+                // 2 selected +
+                //remove all current and selected markers
+                $(".selected").removeClass("selected");
+                $(".current").removeClass("current");
+                //add selected marker to this
+                $(this).addClass("selected")
+                //add current marker to div with ID of this
+                var lID = "#l"+currID;
+                $(lID).addClass("current");
+            }
+        }
+        
+        else if($(".selected").length == 1) {
+        
+            if($(this).hasClass("selected")) {
+                // 1 selected -
+                //remove selected & current marker
+                $(this).removeClass("selected");
+                $(".current").removeClass("current");
+                // add selected & current marker to latest
+                $("a.latest").addClass("selected");
+                $(".lyrics.latest").addClass("current");
+            }
+            
+            else {
+                // 1 selected +
+                //add selected marker
+                $(this).addClass("selected");
+                var ID1 = $(".selected:first").get()[0].hash.substring(1);
+                var ID2 = $(".selected:last").get()[0].hash.substring(1);
+                $.getJSON('/diff', {q1: ID1, q2: ID2}, function(data) {
+                    data = data.split("\n").join("<br />")
+                    $("#compare").html(data);
+                    //remove current marker
+                    $(".current").removeClass("current");
+                    //add current marker to "compare"
+                    $("#compare").addClass("current");
+                });
+            }
+        }
+        return false;
+    });
+        
+            
+}); 
+</script>
+</head>
+{% block head %}
+{% endblock %}
+
+<body>
+
+<div id="header">
+<h1><a href="/">crowdlyrics</a></h1>
+</div>
+<div id="sidebar">
+<form id="search-form">
+<label for="search-type">Search by:</label>
+<select id="search-options">
+<option>Artist</option>
+<option>Album</option>
+<option>Song</option>
+</select>
+<input type="text" name="search" id="search" />
+</form>
+</div>
+<div id="content-area">
+{% block body %}
+{% endblock %}
+</div>
+
+
+</body>
+</html>

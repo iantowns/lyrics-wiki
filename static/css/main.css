@@ -1,0 +1,142 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body { font-family: 'Nobile', sans-serif; }
+
+
+#content-area {
+	width: 700px;
+	font-size: 12px;
+	margin: 2%;
+}
+
+#content-area a { color: #69bd53; text-decoration: none; }
+
+#content-area a:hover { text-decoration: underline; }
+
+#content-area img {
+	width: 7%;
+	float: left;
+	margin-right: 2%;
+}
+
+#lyrics #song-info { background-color: #4a4a4a; padding: 2%; }
+
+#lyrics p {
+	margin: 0px;
+	padding: 2%;
+	background-color: #cccccc;
+	border-bottom: thick;
+//	border-bottom-style: solid;
+	border-bottom-color: #4a4a4a;
+	
+
+}
+
+#lyrics, #comments { //	margin: 2%; }
+
+h3, h4 { margin: 0px; padding: 0px; }
+
+#content-area h3 { font-size: 2em; }
+
+#content-area h4 { padding-left: 1%; font-size: 1.1em; }
+
+#content-area ol { list-style: none; padding-left: 0px; }
+
+#comments ul { list-style: none; }
+
+#comments p { margin-top: 0px; margin-bottom: 2%; }
+
+#comments .info {
+	border-bottom: thin;
+	border-bottom-style: solid;
+	border-bottom-color: #E1E1E1;
+}
+
+#comments li { margin-bottom: 1%; margin-top: 1%; }
+
+#comments h4, #comments ul { padding: 0px; margin: 0px; }
+
+#comments ul { padding-left: 2%; }
+
+#comments h4 { padding-bottom: 1%; padding-top: 2%; }
+
+#comments h5 { font-size: 1em; font-weight: bold; }
+
+#comments .date { font-size: .9em; margin-left: 1%; }
+
+#comments .user { //font-weight: bold; }
+
+input, textarea { display: block; }
+
+#lyrics textarea { width: 99%; height: 200px; }
+
+#album img { width: 35%; height: 35%; }
+
+#header h1, #sidebar input { display: inline; }
+
+#header h1 a { text-decoration: none; color: #000000; }
+
+#sidebar label { margin-left: .5em; margin-right: .5em; }
+
+#sidebar { 
+	background-color: #EFEFEF; 
+	padding-top: .2em; 
+	padding-bottom: .2em; 
+}
+
+#versions {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    }
+
+#versions a {
+	padding: 15px;
+	margin-right: 15px;
+	width: 2em;
+	background-color: #F3F3F3;
+	border-width:thin;
+	border-style: solid;
+	border-color: #F3F3F3;
+}
+
+#versions a.selected {
+	border-width:thin;
+	border-style: solid;
+	border-color:  #EB2954; 
+	background-color: #EB2954;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+}
+
+#results {
+    list-style: none;
+}
+
+#results a {
+    color: #EB2954;
+    text-decoration: none;   
+}
+
+#results a:hover {
+    text-decoration: underline;
+}
+
+
+.lyrics {
+	display: none;
+}
+
+.lyrics.current {
+	display: block;
+}
+
+.older {
+	background-color: #EB2954;
+}
+
+.newer {
+	background-color: #78BD53;
+}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<h3>{{ title|escape }}</h3>
+<h4><a href="/artist/{{ artist|urlencode }}">{{ artist|escape }}</a>{% if album %}, <a href="/album/{{ artist|urlencode }}/{{ album|urlencode }}">{{ album|escape }}</a></h4>
+{% else %}
+</h4>
+<p>This song does not have lyrics associated with it. Add them?
+<form id="lyrics-submit" class="vForm" action="/submit" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="title" id="title" value="{{ title|escape }}" />
+    <input type="hidden" name="artist" id="artist" value="{{ artist|escape }}" />
+	<label for="album">Album</label>  <input type="text" name="album" id="album" class="required"/>
+	<br />
+	<label for="lyrics">Lyrics</label> <textarea rows=15 cols=30 name="lyrics" id="lyrics" class="required"></textarea>
+	<br />
+	<input type="submit" value="submit" />
+</form>
+
+{% endif %}
+{% for l in lyrics %}
+{% if l == lyrics.0 %} 
+<div id="l{{ l.key.id }}" class="lyrics current latest">
+{% else %}
+<div id="l{{ l.key.id }}" class="lyrics">
+{% endif %}
+<p>{{ l.text|linebreaks|escape }}</p>
+<div class="edit"><a href="/edit/{{ l.key.id }}">edit lyrics</a></span></div>
+</div>
+{% endfor %}
+<div id="compare" class="lyrics">
+</div> 
+<div id="versions">
+{% for l in lyrics reversed %} 
+{% if forloop.last %} 
+<a class="selected latest" href ="#{{ l.key.id }}">latest</a>
+{% else %}
+<a href ="#{{ l.key.id }}">{{ l.date|date:"b j y" }}</a>
+{% endif %}
+{% endfor %}
+</div>
+{% if album %}
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'crowdlyrics'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+{% endif %}
+{% endblock %}
+

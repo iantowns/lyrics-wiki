@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<p>Search by artist, album, or song.</p>
+<p>Latest songs:</p>
+<div id="artdir">
+<ol>
+{% for song in songlist %}
+<li><a href="/song/{{ song.artist|urlencode }}/{{ song.songTitle|urlencode }}">{{ song.songTitle|escape }}</a> - <a href="/artist/{{ song.artist|urlencode }}">{{ song.artist|escape }}</a></li>
+{% endfor %}
+</ol>
+
+</div>
+
+
+
+
+{% endblock %}
+
